@@ -9,14 +9,16 @@ global RELOAD
 RELOAD = SAVE["RELOAD"]
 global HEALTH
 BASE_HEALTH = SAVE["HEALTH"]
-SIZE = WIDTH, HEIGHT = (630, 630)
+global SIZE
+SIZE = WIDTH, HEIGHT = (800, 630)
 FONT = pygame.font.SysFont('bahnschrift bold', 24)
 FONT2 = pygame.font.SysFont('arial bold', 24)
 DISPLAY = pygame.display.set_mode(SIZE)
+global BG
 BG = pygame.image.load(os.path.join('Assets', 'Background.png')).convert()
-BG = pygame.transform.scale(BG,(630,630))
+BG = pygame.transform.scale(BG,(WIDTH, HEIGHT))
 BG2 = pygame.image.load(os.path.join('Assets', 'bg_menu.jpg')).convert()
-BG2 = pygame.transform.scale(BG2,(630,630))
+BG2 = pygame.transform.scale(BG2,(WIDTH, HEIGHT))
 def get_font(size):
         return pygame.font.Font(os.path.join('Assets', 'font.ttf'), size)
 global COIN_COUNT
@@ -62,15 +64,15 @@ def play():
     FPS = pygame.time.Clock()
     global COIN_COUNT
     global BASE_HEALTH
-    SIZE = WIDTH, HEIGHT = (630, 630)
+    global WIDTH
+    global HEIGHT
     DISPLAY = pygame.display.set_mode(SIZE)
     FPS = pygame.time.Clock()
     BASE_SPEED = 6
     GREEN = (0, 255, 0)
     RED = (255, 0, 0)
     RED_OVERLAY = (255, 50, 50)
-    BG = pygame.image.load(os.path.join('Assets', 'Background.png')).convert()
-    BG = pygame.transform.scale(BG,(630,630))
+    global BG
     COIN = pygame.image.load(os.path.join('Assets', 'Coin.png')).convert_alpha()
     global RELOAD
     ZOMBIE_RELOAD = 3000
@@ -271,7 +273,7 @@ def play():
         DISPLAY.blit(coin_text, (WIDTH//2, 20))
         if SCORE//60 == 10:
             BG = pygame.image.load(os.path.join('Assets', 'Background_2.jpg')).convert()
-            BG = pygame.transform.scale(BG,(630,630))
+            BG = pygame.transform.scale(BG,(WIDTH, HEIGHT))
             pygame.time.set_timer(SPAWN_ENEMY, ZOMBIE_RELOAD-2500)
             pygame.time.set_timer(SPAWN_COIN, 3000)
         else:

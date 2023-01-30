@@ -294,6 +294,7 @@ def shop():
     global COIN_COUNT
     global RELOAD
     global BASE_HEALTH
+    ERROR = FONT.render(f" ", True, (0, 0, 200))
     while True:
         DISPLAY.blit(BG, (0, 0))
         SHOP_MOUSE_POS = pygame.mouse.get_pos()
@@ -322,16 +323,23 @@ def shop():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if UPGRADE_RELOAD.checkForInput(SHOP_MOUSE_POS):
-                    if RELOAD <= 100:
-                        RELOAD = 100
+                    if COIN_COUNT - 10 < 0:
+                        ERROR = get_font(40).render(f"NOT ENOUGH COINS", True, (255, 0, 0))
                     else:
+                        COIN_COUNT -= 10
                         RELOAD -= 200
-                    print(RELOAD)
+                        if RELOAD < 100:
+                            RELOAD = 100
                 if UPGRADE_HEALTH.checkForInput(SHOP_MOUSE_POS):
-                    BASE_HEALTH +=20
+                    if COIN_COUNT - 10 < 0:
+                        ERROR = get_font(40).render(f"NOT ENOUGH COINS", True, (255, 0, 0))
+                    else:
+                        COIN_COUNT -= 10
+                        BASE_HEALTH +=20
                 if QUIT_BUTTON.checkForInput(SHOP_MOUSE_POS):
                     write_save({"HEALTH": BASE_HEALTH, "RELOAD": RELOAD, "COIN_COUNT": COIN_COUNT})
                     main_menu()
+        DISPLAY.blit(ERROR, (0, 0))
         pygame.display.update()
 
 main_menu()

@@ -17,8 +17,6 @@ DISPLAY = pygame.display.set_mode(SIZE)
 global BG
 BG = pygame.image.load(os.path.join('Assets', 'Background.png')).convert()
 BG = pygame.transform.scale(BG,(WIDTH, HEIGHT))
-BG2 = pygame.image.load(os.path.join('Assets', 'bg_menu.jpg')).convert()
-BG2 = pygame.transform.scale(BG2,(WIDTH, HEIGHT))
 def get_font(size):
         return pygame.font.Font(os.path.join('Assets', 'font.ttf'), size)
 global COIN_COUNT
@@ -98,7 +96,7 @@ def play():
                 pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run11.png")).convert_alpha(), (64, 64)),
                 pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run12.png")).convert_alpha(), (64, 64))
             ]
-            self.surface = pygame.Surface((64, 64))
+            self.surface = pygame.Surface((48, 48))
             self.direction = 1
             self.step_count = 0
         
@@ -107,7 +105,7 @@ def play():
     class Player(Character):
         def __init__(self):
             Character.__init__(self, "Player")
-            self.hurt = pygame.image.load(os.path.join("Assets", "Player", "Player_hurt.png")).convert_alpha()
+            self.hurt = pygame.transform.scale(pygame.image.load(os.path.join("Assets", "Player", "Player_hurt.png")).convert_alpha(), (64, 64))
             self.rect = self.surface.get_rect(center = (WIDTH/2, HEIGHT/2))
             self.x_speed = BASE_SPEED
             self.y_speed = BASE_SPEED

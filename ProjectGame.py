@@ -73,8 +73,8 @@ def play():
     global BG
     COIN = pygame.image.load(os.path.join('Assets', 'Coin.png')).convert_alpha()
     global RELOAD
-    ZOMBIE_RELOAD = 3000
-    Z_DEATH = pygame.mixer.Sound(os.path.join('Assets','zombie_death.wav'))
+    CHICKEN_RELOAD = 3000
+    Z_DEATH = pygame.mixer.Sound(os.path.join('Assets','chicken_death.wav'))
     Z_DEATH.set_volume(0.2)
     pygame.mixer.music.load(os.path.join('Assets','bg_music.wav'))
     pygame.mixer.music.play(-1) 
@@ -179,7 +179,7 @@ def play():
 
         
 
-    class Zombie(Character):
+    class Checken(Character):
         def __init__(self):
             Character.__init__(self, "Chiclen")        
             self.rect = self.surface.get_rect(center = (random.randint(50, WIDTH-50), random.randint(75,HEIGHT-75)))
@@ -203,17 +203,17 @@ def play():
             self.step_count += 1
     SCORE = 0
     player = Player()
-    zombie = Zombie()
+    chicken = Checken()
     coin = Coin()
     coins = pygame.sprite.Group()
-    zombie_count = 1
+    chicken_count = 1
 
-    zombies = pygame.sprite.Group()
-    zombies.add(zombie)
+    chickens = pygame.sprite.Group()
+    chickens.add(chicken)
     all_sprites = pygame.sprite.Group()
-    all_sprites.add(zombies, player)
+    all_sprites.add(chickens, player)
     SPAWN_ENEMY = pygame.USEREVENT + 1
-    pygame.time.set_timer(SPAWN_ENEMY, ZOMBIE_RELOAD)
+    pygame.time.set_timer(SPAWN_ENEMY, CHICKEN_RELOAD)
     YES = pygame.USEREVENT + 2
     pygame.time.set_timer(YES, RELOAD)
     SPAWN_COIN = pygame.USEREVENT + 3
@@ -233,10 +233,10 @@ def play():
                         player.shoot()
                         CAN_SHOOT = False
             if event.type == SPAWN_ENEMY:
-                new_zombie = Zombie()
-                zombies.add(new_zombie)
-                all_sprites.add(new_zombie)
-                zombie_count += 1
+                new_chicken = Checken()
+                chickens.add(new_chicken)
+                all_sprites.add(new_chicken)
+                chicken_count += 1
             if event.type == SPAWN_COIN:
                 new_coin = Coin()
                 coins.add(new_coin)
@@ -248,7 +248,7 @@ def play():
         for bullet in bullets:
             bullet.draw(DISPLAY)
             bullet.update()
-            if pygame.sprite.spritecollide(bullet, zombies, dokill = True):
+            if pygame.sprite.spritecollide(bullet, chickens, dokill = True):
                 Z_DEATH.play()
                 COIN_COUNT += 1
 
@@ -256,13 +256,13 @@ def play():
             current_coin = coin.img
             DISPLAY.blit(current_coin, coin.rect)
 
-        for character in zombies:
-            current_zombie_sprite = character.walk_anim[character.step_count//4]
+        for character in chickens:
+            current_chicken_sprite = character.walk_anim[character.step_count//4]
             if character.direction == -1:
-                current_zombie_sprite = pygame.transform.flip(current_zombie_sprite, True, False)
-            DISPLAY.blit(current_zombie_sprite, character.rect)
+                current_chicken_sprite = pygame.transform.flip(current_chicken_sprite, True, False)
+            DISPLAY.blit(current_chicken_sprite, character.rect)
 
-        if pygame.sprite.spritecollideany(player, zombies):
+        if pygame.sprite.spritecollideany(player, chickens):
             player.health -= 1
             current_player_sprite = player.hurt
             DISPLAY.fill(RED_OVERLAY, special_flags=BLEND_MULT)
@@ -282,7 +282,7 @@ def play():
         if SCORE//60 == 10:
             BG = pygame.image.load(os.path.join('Assets', 'Background_2.jpg')).convert()
             BG = pygame.transform.scale(BG,(WIDTH, HEIGHT))
-            pygame.time.set_timer(SPAWN_ENEMY, ZOMBIE_RELOAD-1500)
+            pygame.time.set_timer(SPAWN_ENEMY, CHICKEN_RELOAD-1500)
             pygame.time.set_timer(SPAWN_COIN, 3000)
         else:
             pass

@@ -85,12 +85,20 @@ def play():
         def __init__(self, type):
             super().__init__()
             self.walk_anim = [
-                pygame.image.load(os.path.join('Assets', type, f"{type}_run1.png")).convert_alpha(),
-                pygame.image.load(os.path.join('Assets', type, f"{type}_run2.png")).convert_alpha(),
-                pygame.image.load(os.path.join('Assets', type, f"{type}_run1.png")).convert_alpha(),
-                pygame.image.load(os.path.join('Assets', type, f"{type}_run2.png")).convert_alpha(),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run1.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run2.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run3.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run4.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run5.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run6.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run7.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run8.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run9.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run10.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run11.png")).convert_alpha(), (64, 64)),
+                pygame.transform.scale(pygame.image.load(os.path.join('Assets', type, f"{type}_run12.png")).convert_alpha(), (64, 64))
             ]
-            self.surface = pygame.Surface((32, 64))
+            self.surface = pygame.Surface((64, 64))
             self.direction = 1
             self.step_count = 0
         
@@ -130,8 +138,9 @@ def play():
                 self.rect.move_ip(0, BASE_SPEED)
                 self.step_count += 1
 
-            if self.step_count >= 59:
+            if self.step_count >= 47:
                 self.step_count = 0
+
         def shoot(self):
             pos = pygame.mouse.get_pos()
             bullet = Bullet(self.rect.centerx, self.rect.centery, pos[0], pos[1])
@@ -174,13 +183,13 @@ def play():
 
     class Zombie(Character):
         def __init__(self):
-            Character.__init__(self, "Zombie")        
+            Character.__init__(self, "Chiclen")        
             self.rect = self.surface.get_rect(center = (random.randint(50, WIDTH-50), random.randint(75,HEIGHT-75)))
             self.x_speed = random.randint(1,5)
             self.y_speed = random.randint(1,5)
 
         def move(self):
-            if self.step_count >= 59:
+            if self.step_count >= 47:
                 self.step_count = 0
 
             self.rect.move_ip(self.x_speed, self.y_speed)
@@ -191,6 +200,7 @@ def play():
 
             if (self.rect.bottom > HEIGHT) or (self.rect.top < 0):
                 self.y_speed *= -1
+                
 
             self.step_count += 1
     SCORE = 0
@@ -249,7 +259,7 @@ def play():
             DISPLAY.blit(current_coin, coin.rect)
 
         for character in zombies:
-            current_zombie_sprite = character.walk_anim[character.step_count//15]
+            current_zombie_sprite = character.walk_anim[character.step_count//4]
             if character.direction == -1:
                 current_zombie_sprite = pygame.transform.flip(current_zombie_sprite, True, False)
             DISPLAY.blit(current_zombie_sprite, character.rect)
@@ -259,7 +269,7 @@ def play():
             current_player_sprite = player.hurt
             DISPLAY.fill(RED_OVERLAY, special_flags=BLEND_MULT)
         else:
-            current_player_sprite = player.walk_anim[player.step_count//15]
+            current_player_sprite = player.walk_anim[player.step_count//4]
         
         if pygame.sprite.spritecollide(player, coins, dokill = True):
             COIN_COUNT += 1
@@ -274,7 +284,7 @@ def play():
         if SCORE//60 == 10:
             BG = pygame.image.load(os.path.join('Assets', 'Background_2.jpg')).convert()
             BG = pygame.transform.scale(BG,(WIDTH, HEIGHT))
-            pygame.time.set_timer(SPAWN_ENEMY, ZOMBIE_RELOAD-2500)
+            pygame.time.set_timer(SPAWN_ENEMY, ZOMBIE_RELOAD-1500)
             pygame.time.set_timer(SPAWN_COIN, 3000)
         else:
             pass
